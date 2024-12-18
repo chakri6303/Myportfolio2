@@ -3,6 +3,7 @@ import { Link as LinkR } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
 import { Bio } from "../data/constants";
 import { MenuRounded } from "@mui/icons-material";
+import { menu, close } from "../assets";
 
 const Nav = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -92,10 +93,6 @@ const GithubButton = styled.a`
 `;
 
 const MobileIcon = styled.div`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  color: ${({ theme }) => theme.text_primary};
   display: none;
   @media screen and (max-width: 768px) {
     display: block;
@@ -108,9 +105,6 @@ const MobileMenu = styled.ul`
   flex-direction: column;
   align-items: start;
   gap: 16px;
-  padding: 0 6px;
-  list-style: none;
-  width: 100%;
   padding: 12px 40px 24px 40px;
   background: ${({ theme }) => theme.card_light + 99};
   position: absolute;
@@ -128,22 +122,28 @@ const MobileMenu = styled.ul`
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const theme = useTheme();
+
   return (
     <Nav>
       <NavbarContainer>
         <NavLogo to="/">Rama Krishna</NavLogo>
 
-        <MobileIcon onClick={() => setIsOpen(!isOpen)}>
-          <MenuRounded style={{ color: "inherit" }} />
-        </MobileIcon>
+        <div className="sm:hidden flex flex-1 justify-end items-center">
+          <img
+            src={toggle ? close : menu}
+            alt="menu"
+            className="w-[28px] h-[28px] object-contain"
+            onClick={() => setToggle(!toggle)}
+          />
+        </div>
 
         <NavItems>
           <NavLink href="#About">About</NavLink>
           <NavLink href="#Skills">Skills</NavLink>
           <NavLink href="#Experience">Experience</NavLink>
           <NavLink href="#Projects">Projects</NavLink>
-          {/* <NavLink href="#Education">Education</NavLink> */}
         </NavItems>
 
         {isOpen && (
@@ -160,9 +160,6 @@ const Navbar = () => {
             <NavLink onClick={() => setIsOpen(!isOpen)} href="#Projects">
               Projects
             </NavLink>
-            {/* <NavLink onClick={() => setIsOpen(!isOpen)} href="#Education">
-              Education
-            </NavLink> */}
             <GithubButton
               href={Bio.github}
               target="_Blank"
