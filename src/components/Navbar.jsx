@@ -3,7 +3,6 @@ import { Link as LinkR } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
 import { Bio } from "./data/constants";
 import { MenuRounded } from "@mui/icons-material";
-import closeIcon from "./assets/close.svg";
 
 const Nav = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -27,7 +26,6 @@ const NavbarContainer = styled.div`
   justify-content: space-between;
   font-size: 1rem;
 `;
-
 const NavLogo = styled(LinkR)`
   width: 80%;
   padding: 0 6px;
@@ -112,6 +110,7 @@ const MobileMenu = styled.ul`
   gap: 16px;
   padding: 0 6px;
   list-style: none;
+  width: 100%;
   padding: 12px 40px 24px 40px;
   background: ${({ theme }) => theme.card_light + 99};
   position: absolute;
@@ -130,18 +129,13 @@ const MobileMenu = styled.ul`
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const theme = useTheme();
-
   return (
     <Nav>
       <NavbarContainer>
         <NavLogo to="/">Rama Krishna</NavLogo>
 
         <MobileIcon onClick={() => setIsOpen(!isOpen)}>
-          <img
-            src={isOpen ? closeIcon : MenuRounded}
-            alt="menu-icon"
-            style={{ width: "24px", height: "24px", cursor: "pointer" }}
-          />
+          <MenuRounded style={{ color: "inherit" }} />
         </MobileIcon>
 
         <NavItems>
@@ -154,19 +148,19 @@ const Navbar = () => {
 
         {isOpen && (
           <MobileMenu isOpen={isOpen}>
-            <NavLink onClick={() => setIsOpen(false)} href="#About">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#About">
               About
             </NavLink>
-            <NavLink onClick={() => setIsOpen(false)} href="#Skills">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#Skills">
               Skills
             </NavLink>
-            <NavLink onClick={() => setIsOpen(false)} href="#Experience">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#Experience">
               Experience
             </NavLink>
-            <NavLink onClick={() => setIsOpen(false)} href="#Projects">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#Projects">
               Projects
             </NavLink>
-            <NavLink onClick={() => setIsOpen(false)} href="#Education">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#Education">
               Education
             </NavLink>
             <GithubButton
@@ -176,7 +170,6 @@ const Navbar = () => {
                 background: theme.primary,
                 color: theme.text_primary,
               }}
-              onClick={() => setIsOpen(false)}
             >
               Github Profile
             </GithubButton>
