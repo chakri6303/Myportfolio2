@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link as LinkR } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
-import { Bio } from "../data/constants";
+import { Bio } from "./data/constants";
 import { MenuRounded } from "@mui/icons-material";
-import { close } from "../assets";
+import closeIcon from "./assets/close.svg";
 
 const Nav = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -27,6 +27,7 @@ const NavbarContainer = styled.div`
   justify-content: space-between;
   font-size: 1rem;
 `;
+
 const NavLogo = styled(LinkR)`
   width: 80%;
   padding: 0 6px;
@@ -93,6 +94,10 @@ const GithubButton = styled.a`
 `;
 
 const MobileIcon = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.text_primary};
   display: none;
   @media screen and (max-width: 768px) {
     display: block;
@@ -105,6 +110,8 @@ const MobileMenu = styled.ul`
   flex-direction: column;
   align-items: start;
   gap: 16px;
+  padding: 0 6px;
+  list-style: none;
   padding: 12px 40px 24px 40px;
   background: ${({ theme }) => theme.card_light + 99};
   position: absolute;
@@ -122,7 +129,6 @@ const MobileMenu = styled.ul`
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [toggle, setToggle] = useState(false);
   const theme = useTheme();
 
   return (
@@ -130,35 +136,38 @@ const Navbar = () => {
       <NavbarContainer>
         <NavLogo to="/">Rama Krishna</NavLogo>
 
-        <div className="sm:hidden flex flex-1 justify-end items-center">
+        <MobileIcon onClick={() => setIsOpen(!isOpen)}>
           <img
-            src={toggle ? close : menu}
-            alt="menu"
-            className="w-[28px] h-[28px] object-contain"
-            onClick={() => setToggle(!toggle)}
+            src={isOpen ? closeIcon : MenuRounded}
+            alt="menu-icon"
+            style={{ width: "24px", height: "24px", cursor: "pointer" }}
           />
-        </div>
+        </MobileIcon>
 
         <NavItems>
           <NavLink href="#About">About</NavLink>
           <NavLink href="#Skills">Skills</NavLink>
           <NavLink href="#Experience">Experience</NavLink>
           <NavLink href="#Projects">Projects</NavLink>
+          <NavLink href="#Education">Education</NavLink>
         </NavItems>
 
         {isOpen && (
           <MobileMenu isOpen={isOpen}>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#About">
+            <NavLink onClick={() => setIsOpen(false)} href="#About">
               About
             </NavLink>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#Skills">
+            <NavLink onClick={() => setIsOpen(false)} href="#Skills">
               Skills
             </NavLink>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#Experience">
+            <NavLink onClick={() => setIsOpen(false)} href="#Experience">
               Experience
             </NavLink>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#Projects">
+            <NavLink onClick={() => setIsOpen(false)} href="#Projects">
               Projects
+            </NavLink>
+            <NavLink onClick={() => setIsOpen(false)} href="#Education">
+              Education
             </NavLink>
             <GithubButton
               href={Bio.github}
@@ -167,6 +176,7 @@ const Navbar = () => {
                 background: theme.primary,
                 color: theme.text_primary,
               }}
+              onClick={() => setIsOpen(false)}
             >
               Github Profile
             </GithubButton>
